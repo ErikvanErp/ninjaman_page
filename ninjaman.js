@@ -1,9 +1,8 @@
-// world is a 2D array, filled with numbers 0, 1, 2, 3 
-// on loading the page, a random ninjaman world is generated
-
 var gameover = false;
 var score = 0;
 
+// world is a 2D array, filled with numbers 0, 1, 2, 3 
+// on loading the page, a random ninjaman world is generated
 // the entries of world are translated to css classes
 var world = [];
 var worldDict = {
@@ -13,6 +12,7 @@ var worldDict = {
     3: 'onigiri'
 }
 
+// coordinates for the players
 var ninjaman = {
     x: 1,
     y: 1
@@ -39,13 +39,21 @@ var pumpkyghost = {
     yPerv: 1 
 }
 
-// start game on load
+// start new game on load
 
 newGame();
 
 // start a new game with a new world
 
 function newGame(){
+    loadGame();
+    startGame();
+    return;
+}
+
+// load a new game
+// ghosts will not start chasing yet
+function loadGame(){
     score = 0;
     removeGameover();
     
@@ -144,14 +152,20 @@ function newGame(){
     drawBlueghost();
     drawPumpkyghost();
 
+    return;
+}
+
+var redghostTimer, blueghostTimer, pumpkyghostTimer;
+
+function startGame(){
     // the ghosts start chasing
+    console.log("start timers");
     redghostTimer = window.setInterval(moveRedGhost, 300);
     blueghostTimer = window.setInterval(moveBlueGhost, 750);
     pumpkyghostTimer = window.setInterval(movePumpkyGhost, 500);
 
     return;
 }
-
 // arrow keys move the ninjaman around
 document.onkeydown = function(e){
     if (gameover){
@@ -313,7 +327,7 @@ function moveRedGhost(){
     redghost = newtileForGhost(redghost);
     drawRedghost();
     if (redghost.x == ninjaman.x && redghost.y == ninjaman.y){
-        gameOver();
+        endGame();
     }
 }
 
@@ -327,7 +341,7 @@ function moveBlueGhost(){
     blueghost = newtileForGhost(blueghost);
     drawBlueghost();
     if (blueghost.x == ninjaman.x && blueghost.y == ninjaman.y){
-        gameOver();
+        endGame();
     }
 }
 
@@ -341,13 +355,13 @@ function movePumpkyGhost(){
     pumpkyghost = newtileForGhost(pumpkyghost);
     drawPumpkyghost();
     if (pumpkyghost.x == ninjaman.x && pumpkyghost.y == ninjaman.y){
-        gameOver();
+        endGame();
     }
 }
 
 // game over
 
-function gameOver(){
+function endGame(){
     gameover = true;
     var el = document.querySelector('.gameover');
     // el.style.height = '65px';

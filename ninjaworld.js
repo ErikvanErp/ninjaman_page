@@ -84,14 +84,14 @@ function generateWorld(numRows, numCols){
 }
 
 
+// check whether world[y][x] can be changed to a wall tile
+// problem: avoid creating blank regions in the ninjaworld
+// that are separated by walls
+// solution: 
+// 1. inspect the 8 neighboring tiles of world[y][x]
+// 2. changing world[y][x] to a wall tile should not result in 2 or more 
+//    disconnected blank regions in the 3x3 square surrounding world[y][x]
 function tileAvailable(world, x, y){
-    // check whether world[y][x] can be changed to a wall tile
-    // problem: avoid creating blank regions in the ninjaworld
-    // that are separated by walls
-    // solution: 
-    // 1. inspect the 8 neighboring tiles of world[y][x]
-    // 2. changing world[y][x] to a wall tile should not result in 2 or more 
-    //    disconnected blank regions in the 3x3 square surrounding world[y][x]
     
     var numRows = world.length;
     var numCols = world[0].length;
