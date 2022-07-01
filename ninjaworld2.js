@@ -1,3 +1,17 @@
+// world is a 2D array, filled with numbers 0, 1, 2, 3 
+// on loading the page, a random ninjaman world is generated
+
+var world = generateWorld(15, 15);
+
+// the entries of world are translated to css classes
+var worldDict = {
+    0: 'blank',
+    1: 'wall',
+    2: 'sushi',
+    3: 'onigiri'
+}
+
+drawWorld();
 
 // based on world array
 // generate div.row for each row of world array

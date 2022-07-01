@@ -1,23 +1,52 @@
 <!DOCTYPE html>
-<!-- 
-    June 2022
-    Ninjaman game -- based on Pacman
-    "Ninjaman challenge" is part of Coding-dojo pre-bootcamp 
-    Introduction to Web Development
--->
-<html>
-    <head>
-        <title>NinjaMan</title>
-        <link rel="stylesheet" href="ninjaman.css" type="text/css">            
-    </head>
-    <body>
-        <div id='world'></div>
-        <div id="ninjaman"></div>
-        <div id="redghost" class="ghost"></div>
-        <div id="blueghost" class="ghost"></div>
-        <div id="pumpkyghost" class="ghost"></div>
-        <div id="score">Score: 0</div>
-        <script type="text/javascript" src="ninjaworld.js"></script>
-        <script type="text/javascript" src="ninjaman.js"></script>
-    </body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninjaman</title>
+    <!-- Roboto Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="ninjaman.css" type="text/css">            
+</head>
+
+<body>
+    <!-- title and newgame button -->
+    <div class="top">
+        <div class="header">
+            <span class="brand">
+                <img src="img/ninja.gif" alt="logo">
+                <h1>Ninjaman</h1>
+            </span>
+            <button onclick="newGame()">New Game</button>
+        </div>
+    </div>
+    
+    <!-- the game board -->
+    <div class="main">
+        <div class="gameboard">
+            <!-- the players -->
+            <div id="ninjaman"></div>
+            <div id="redghost" class="ghost"></div>
+            <div id="blueghost" class="ghost"></div>
+            <div id="pumpkyghost" class="ghost"></div>
+            <!-- ninjaworld.js adds several div.row as children to div#world  -->
+            <div id='world'></div>
+            <div id="score">Score: 0</div>
+        </div>
+    </div>
+
+    <!-- game over display -->
+    <div class="footer">
+        <div class="gameover"></div>
+    </div>
+
+    <script type="text/javascript" src="ninjaworld.js"></script>
+    <script type="text/javascript" src="ninjaman.js"></script>
+</body>
+
 </html>

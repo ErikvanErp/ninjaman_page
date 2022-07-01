@@ -1,163 +1,42 @@
-// world is a 2D array, filled with numbers 0, 1, 2, 3 
-// on loading the page, a random ninjaman world is generated
-
 var gameover = false;
-var score = 0;
 
-// the entries of world are translated to css classes
-var world = [];
-var worldDict = {
-    0: 'blank',
-    1: 'wall',
-    2: 'sushi',
-    3: 'onigiri'
+// newgame function
+function newGame(){
+    console.log("new game started");
 }
+// ninjaman = pacman is initially placed on the first available blank space in world
 
 var ninjaman = {
     x: 1,
     y: 1
 }
 
-var redghost = {
-    x: 1,
-    y: 1,
-    xPrev: 1,
-    yPerv: 1 
+while(world[ninjaman.y][ninjaman.x] != 0){
+    if(ninjaman.x < world[ninjaman.y].length - 2){
+        ninjaman.x++;
+    }
+    else {
+        ninjaman.y++;
+        ninjaman.x = 1;
+    }
 }
 
-var blueghost = {
-    x: 1,
-    y: 1,
-    xPrev: 1,
-    yPerv: 1 
+function drawNinjaman(){
+    document.querySelector('#ninjaman').style.top = ninjaman.y * 40 + 'px';
+    document.querySelector('#ninjaman').style.left = ninjaman.x * 40 + 'px';
 }
 
-var pumpkyghost = {
-    x: 1,
-    y: 1,
-    xPrev: 1,
-    yPerv: 1 
-}
-
-// start game on load
-
-newGame();
-
-// start a new game with a new world
-
-function newGame(){
-    score = 0;
-    removeGameover();
-    
-    ninjaman = {
-        x: 1,
-        y: 1
-    }
-    
-    world = generateWorld(15, 15);
-    
-    redghost = {
-        x: 1,
-        y: 1,
-        xPrev: 1,
-        yPerv: 1 
-    }
-    
-    blueghost = {
-        x: 1,
-        y: 1,
-        xPrev: 1,
-        yPerv: 1 
-    }
-    
-    pumpkyghost = {
-        x: 1,
-        y: 1,
-        xPrev: 1,
-        yPerv: 1 
-    }
-    
-    // ninjaman = pacman is initially placed on the first available blank space in world
-    
-    while(world[ninjaman.y][ninjaman.x] != 0){
-        if(ninjaman.x < world[ninjaman.y].length - 2){
-            ninjaman.x++;
-        }
-        else {
-            ninjaman.y++;
-            ninjaman.x = 1;
-        }
-    }
-    
-    // redghost is initially placed at the bottom right corner
-    
-    redghost.y = world.length - 2;
-    redghost.x = world[0].length - 2;
-    
-    while(world[redghost.y][redghost.x] != 0){
-        if(redghost.x > 2){
-            redghost.x--;
-        }
-        else {
-            redghost.y--;
-            redghost.x = world[0].length - 2;
-        }
-    }
-
-    // blueghost is initially placed at the bottom left corner
-
-    blueghost.y = world.length - 2;
-    blueghost.x = 1;
-
-    while(world[blueghost.y][blueghost.x] != 0){
-        if(blueghost.y > 2){
-            blueghost.y--;
-        }
-        else {
-            blueghost.x++;
-            blueghost.y = world.length - 2;
-        }
-    }
-
-    // pumpky is initially placed at the top right corner
-
-    pumpkyghost.x = world[0].length - 2;
-    pumpkyghost.y = 1;
-
-    while(world[pumpkyghost.y][pumpkyghost.x] != 0){
-        if(pumpkyghost.y < world.lenght - 2){
-            pumpkyghost.y++;
-        }
-        else {
-            pumpkyghost.x--;
-            pumpkyghost.y = 1;
-        }
-    }
-
-    // once a world has been generated
-    // and the players coordinates are determined,
-    // draw the world and players
-
-    drawWorld();
-    drawNinjaman();
-    drawRedghost();
-    drawBlueghost();
-    drawPumpkyghost();
-
-    // the ghosts start chasing
-    redghostTimer = window.setInterval(moveRedGhost, 300);
-    blueghostTimer = window.setInterval(moveBlueGhost, 750);
-    pumpkyghostTimer = window.setInterval(movePumpkyGhost, 500);
-
-    return;
-}
+drawNinjaman();
 
 // arrow keys move the ninjaman around
+
+var score = 0;
+
 document.onkeydown = function(e){
     if (gameover){
         return;
     }
-    
+
     if(e.keyCode == 37){// LEFT
         if(world[ninjaman.y][ninjaman.x - 1] != 1){
             ninjaman.x--;
@@ -178,7 +57,7 @@ document.onkeydown = function(e){
             ninjaman.y++;
         }
     }
-    
+
     // keep score if ninjaman eats sushi or onigiri
     if (world[ninjaman.y][ninjaman.x] == 2){
         score += 10;
@@ -187,7 +66,7 @@ document.onkeydown = function(e){
         score += 5;
     }
     document.getElementById('score').textContent = "Score: "+score;
-    
+
     // where ninjaman moves, tile is made blank
     world[ninjaman.y][ninjaman.x] = 0; 
     
@@ -197,9 +76,26 @@ document.onkeydown = function(e){
     drawNinjaman();
 }
 
-function drawNinjaman(){
-    document.querySelector('#ninjaman').style.top = ninjaman.y * 40 + 'px';
-    document.querySelector('#ninjaman').style.left = ninjaman.x * 40 + 'px';
+// redghost is initially placed at the bottom right corner
+
+var redghost = {
+    x: 1,
+    y: 1,
+    xPrev: 1,
+    yPerv: 1 
+}
+
+redghost.y = world.length - 2;
+redghost.x = world[0].length - 2;
+
+while(world[redghost.y][redghost.x] != 0){
+    if(redghost.x > 2){
+        redghost.x--;
+    }
+    else {
+        redghost.y--;
+        redghost.x = world[0].length - 2;
+    }
 }
 
 function drawRedghost(){
@@ -207,15 +103,65 @@ function drawRedghost(){
     document.getElementById('redghost').style.left = redghost.x * 40 + 'px';
 }
 
+drawRedghost();
+
+// blueghost is initially placed at the bottom left corner
+
+var blueghost = {
+    x: 1,
+    y: 1,
+    xPrev: 1,
+    yPerv: 1 
+}
+
+blueghost.y = world.length - 2;
+blueghost.x = 1;
+
+while(world[blueghost.y][blueghost.x] != 0){
+    if(blueghost.y > 2){
+        blueghost.y--;
+    }
+    else {
+        blueghost.x++;
+        blueghost.y = world.length - 2;
+    }
+}
+
 function drawBlueghost(){
     document.getElementById('blueghost').style.top = blueghost.y * 40 + 'px';
     document.getElementById('blueghost').style.left = blueghost.x * 40 + 'px';
+}
+
+drawBlueghost();
+
+// pumpky is initially placed at the top right corner
+
+var pumpkyghost = {
+    x: 1,
+    y: 1,
+    xPrev: 1,
+    yPerv: 1 
+}
+
+pumpkyghost.x = world[0].length - 2;
+pumpkyghost.y = 1;
+
+while(world[pumpkyghost.y][pumpkyghost.x] != 0){
+    if(pumpkyghost.y < world.lenght - 2){
+        pumpkyghost.y++;
+    }
+    else {
+        pumpkyghost.x--;
+        pumpkyghost.y = 1;
+    }
 }
 
 function drawPumpkyghost(){
     document.getElementById('pumpkyghost').style.top = pumpkyghost.y * 40 + 'px';
     document.getElementById('pumpkyghost').style.left = pumpkyghost.x * 40 + 'px';
 }
+
+drawPumpkyghost();
 
 // move a ghost to the tile that brings it closest (by straight line) 
 // to ninjaman
@@ -313,9 +259,11 @@ function moveRedGhost(){
     redghost = newtileForGhost(redghost);
     drawRedghost();
     if (redghost.x == ninjaman.x && redghost.y == ninjaman.y){
-        gameOver();
+        gameover = true;
     }
 }
+
+redghostTimer = window.setInterval(moveRedGhost, 300);
 
 // move blueghost
 
@@ -327,9 +275,11 @@ function moveBlueGhost(){
     blueghost = newtileForGhost(blueghost);
     drawBlueghost();
     if (blueghost.x == ninjaman.x && blueghost.y == ninjaman.y){
-        gameOver();
+        gameover = true;
     }
 }
+
+blueghostTimer = window.setInterval(moveBlueGhost, 750);
 
 // move pumpky
 
@@ -341,27 +291,11 @@ function movePumpkyGhost(){
     pumpkyghost = newtileForGhost(pumpkyghost);
     drawPumpkyghost();
     if (pumpkyghost.x == ninjaman.x && pumpkyghost.y == ninjaman.y){
-        gameOver();
+        gameover = true;
     }
 }
 
-// game over
-
-function gameOver(){
-    gameover = true;
-    var el = document.querySelector('.gameover');
-    // el.style.height = '65px';
-    el.style.padding = '20px';
-    el.innerText = `Game Over! Score: ${score}`;
-}
-
-function removeGameover(){
-    gameover = false;
-    var el = document.querySelector('.gameover');
-    // el.style.height = '0';
-    el.style.padding = '0';
-    el.innerText = '';
-}
+pumpkyghostTimer = window.setInterval(movePumpkyGhost, 500);
 
 
 
